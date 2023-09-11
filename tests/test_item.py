@@ -24,3 +24,33 @@ def test_item_apply_discount(phone):
     phone.pay_rate = 0.8
     phone.apply_discount()
     assert phone.price == 80.0
+
+def test_name(phone):
+    """Проверяем возможность изменения наименования товара.
+    При слишком длинном имени остается первые 10 символов"""
+    phone.name = 'Nokia 3310'
+    assert phone.name == 'Nokia 3310'
+    phone.name = 'Nokia 2210123'
+    assert phone.name == 'Nokia 2210'
+
+def test_string_to_number(phone):
+    """Проверяем работу статического метода"""
+    assert phone.string_to_number('5') == 5
+    assert phone.string_to_number('6.7') == 6
+    assert phone.string_to_number('8.0') == 8
+
+
+@pytest.fixture
+def items_from_csv():
+    test_file_name = 'tests/for_testing.csv'
+    Item.instantiate_from_csv(test_file_name)
+    return Item.all
+def test_instantiate_from_csv(items_from_csv):
+    """Проверяем метод создания экземпляров из файла. Для тестирования создан файл:"""
+    # test_file_name = 'tests/for_testing.csv'
+    # Item.instantiate_from_csv(test_file_name)
+    assert len(items_from_csv) == 4
+    assert items_from_csv[0].name == 'Name_1'
+    assert items_from_csv[1].price == 1000
+    assert items_from_csv[2].quantity == 7
+    assert items_from_csv[3].calculate_total_price() == 2500
