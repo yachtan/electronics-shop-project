@@ -15,10 +15,15 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.__name = name
+        self.__name = name[0:10]
         self.price = price
         self.quantity = quantity
-        # Item.all.append(self)
+
+    def __repr__(self):
+        return f"Item('{self.__name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return f'{self.__name}'
 
     @property
     def name(self):
@@ -40,7 +45,7 @@ class Item:
             DictReader_obj = csv.DictReader(file)
             for i in DictReader_obj:
                 item = cls(i['name'], float(i['price']), int(i['quantity']))
-                Item.all.append(item)
+                cls.all.append(item)
 
 
     def calculate_total_price(self) -> float:
