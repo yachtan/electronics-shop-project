@@ -3,6 +3,7 @@
 import pytest
 from src.item import Item
 
+
 @pytest.fixture
 def phone():
     return Item('samsung', 100.0, 20)
@@ -77,3 +78,8 @@ def test_instantiate_from_csv(items_from_csv):
     assert items_from_csv[1].price == 1000
     assert items_from_csv[2].quantity == 7
     assert items_from_csv[3].calculate_total_price() == 2500
+
+def test_add(phone, phone_1):
+    assert phone + phone_1 == 22
+    assert phone + 3 == 'Ошибка! Нельзя складывать объекты, не являюшиеся экземплярами классов Phone или Item'
+

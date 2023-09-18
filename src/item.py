@@ -25,6 +25,12 @@ class Item:
     def __str__(self):
         return f'{self.__name}'
 
+    def __add__(self, other):
+        if isinstance(other, self.__class__):
+            return self.quantity + other.quantity
+        else:
+            return 'Ошибка! Нельзя складывать объекты, не являюшиеся экземплярами классов Phone или Item'
+
     @property
     def name(self):
         return self.__name
