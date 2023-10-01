@@ -1,5 +1,11 @@
 import csv
 
+
+class InstantiateCSVError(Exception):
+    def __init__(self, *args):
+        self.message = args[0] if args else 'Файл поврежден'
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -47,12 +53,22 @@ class Item:
         """
            Создает экземпляры класса из cvs файла
         """
-        with open(file_name) as file:
-            DictReader_obj = csv.DictReader(file)
-            for i in DictReader_obj:
-                item = cls(i['name'], float(i['price']), int(i['quantity']))
-                cls.all.append(item)
+        try:
+            with open(file_name) as file:
+                DictReader_obj = csv.DictReader(file)
+                for i in DictReader_obj:
+                    item = cls(i['name'], float(i['price']), int(i['quantity']))
+                    cls.all.append(item)
 
+        except FileNotFoundError:
+            print(f'FileNotFoundError: Отсутствует файл {file_name}')
+
+        except KeyError:
+            # print(f'InstantiateCSVError: Файл {file_name} поврежден')
+            raise InstantiateCSVError(f'Файл {file_name} поврежден')
+        except ValueError:
+            # print(f'InstantiateCSVError: Файл {file_name} поврежден')
+            raise InstantiateCSVError(f'Файл {file_name} поврежден')
 
     def calculate_total_price(self) -> float:
         """
