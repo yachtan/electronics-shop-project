@@ -1,7 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 
 import pytest
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 
 
 @pytest.fixture
@@ -79,7 +79,17 @@ def test_instantiate_from_csv(items_from_csv):
     assert items_from_csv[2].quantity == 7
     assert items_from_csv[3].calculate_total_price() == 2500
 
+
 def test_add(phone, phone_1):
     assert phone + phone_1 == 22
     assert phone + 3 == 'Ошибка! Нельзя складывать объекты, не являюшиеся экземплярами классов Phone или Item'
 
+
+def test_instantiate_from_csv_1():
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv('../src/item22.csv')
+
+
+def test_instantiate_from_csv_2():
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv('../tests/for_testing_1.csv')
