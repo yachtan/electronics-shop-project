@@ -61,14 +61,12 @@ class Item:
                     cls.all.append(item)
 
         except FileNotFoundError:
-            print(f'FileNotFoundError: Отсутствует файл {file_name}')
+            raise FileNotFoundError(f'FileNotFoundError: Отсутствует файл {file_name}')
 
         except KeyError:
-            # print(f'InstantiateCSVError: Файл {file_name} поврежден')
-            raise InstantiateCSVError(f'Файл {file_name} поврежден')
+            raise InstantiateCSVError(f'InstantiateCSVError: Файл {file_name} поврежден')
         except ValueError:
-            # print(f'InstantiateCSVError: Файл {file_name} поврежден')
-            raise InstantiateCSVError(f'Файл {file_name} поврежден')
+            raise InstantiateCSVError(f'InstantiateCSVError: Файл {file_name} поврежден')
 
     def calculate_total_price(self) -> float:
         """
